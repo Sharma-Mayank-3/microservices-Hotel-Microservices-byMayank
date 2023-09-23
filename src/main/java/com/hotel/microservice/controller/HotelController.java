@@ -1,0 +1,40 @@
+package com.hotel.microservice.controller;
+
+import com.hotel.microservice.dto.HotelDto;
+import com.hotel.microservice.payload.ApiResponse;
+import com.hotel.microservice.service.HotelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/microservices")
+public class HotelController {
+
+    @Autowired
+    private HotelService hotelService;
+
+    @PostMapping("/hotel")
+    public ResponseEntity<ApiResponse> createHotel(@RequestBody HotelDto hotelDto){
+        HotelDto hotel = this.hotelService.createHotel(hotelDto);
+        ApiResponse userCreated = ApiResponse.builder().serviceName("hotel-service").message("hotel created").data(hotel).status(true).build();
+        return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/hotel/{hotelId}")
+    public ResponseEntity<ApiResponse> getHotelById(@PathVariable("hotelId") int hotelId){
+        HotelDto hotel = this.hotelService.findHotelById(hotelId);
+        ApiResponse userCreated = ApiResponse.builder().serviceName("hotel-service").message("get hotel by Id").data(hotel).status(true).build();
+        return new ResponseEntity<>(userCreated, HttpStatus.OK);
+    }
+
+    @GetMapping("/hotel")
+    public ResponseEntity<ApiResponse> getAllHotes(){
+        List<HotelDto> allHotels = this.hotelService.getAllHotels();
+        ApiResponse userCreated = ApiResponse.builder().serviceName("hotel-service").message("all hotels list").data(allHotels).status(true).build();
+        return new ResponseEntity<>(userCreated, HttpStatus.OK);
+    }
+}
