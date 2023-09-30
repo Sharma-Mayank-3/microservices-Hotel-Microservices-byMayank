@@ -8,7 +8,7 @@ and rating microservice, also establish a synchronous communication between thes
 NOTE : Here we are using postgresql database, configuration are done in application.properties file 
 
 # Hotel Entity 
-1. Create, getById, getAll Hotels operation on user entity.
+1. Create, getById, getAll, update and delete Hotels operation on hotel entity.
 
 
 # Add Eureka Server Client HOTEL-Service to eureka server.
