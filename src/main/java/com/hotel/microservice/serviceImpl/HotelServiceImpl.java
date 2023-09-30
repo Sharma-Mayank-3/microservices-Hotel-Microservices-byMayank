@@ -40,4 +40,22 @@ public class HotelServiceImpl implements HotelService {
         List<Hotel> all = this.hotelRepo.findAll();
         return all.stream().map(hotel->this.modelMapper.map(hotel, HotelDto.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public HotelDto updateHotel(HotelDto hotelDto, int hotelId) {
+        Hotel hotel = this.hotelRepo.findById(hotelId).orElseThrow(() -> new ResourceNotFoundException("hotel", "hotelId", hotelId));
+        hotel.setHotelName(hotelDto.getHotelName());
+        hotel.setHotelLocation(hotelDto.getHotelLocation());
+        hotel.setHotelAbout(hotelDto.getHotelAbout());
+
+        Hotel save = this.hotelRepo.save(hotel);
+        return this.modelMapper.map(save, HotelDto.class);
+    }
+
+    @Override
+    public String deleteHotel(int hotelId) {
+        Hotel hotel = this.hotelRepo.findById(hotelId).orElseThrow(() -> new ResourceNotFoundException("hotel", "hotelId", hotelId));
+        this.hotelRepo.delete(hotel);
+        return "hotel deleted with Id => "+hotelId;
+    }
 }

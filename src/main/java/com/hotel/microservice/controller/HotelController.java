@@ -37,4 +37,21 @@ public class HotelController {
         ApiResponse userCreated = ApiResponse.builder().serviceName("hotel-service").message("all hotels list").data(allHotels).status(true).build();
         return new ResponseEntity<>(userCreated, HttpStatus.OK);
     }
+
+    @PutMapping("/hotel/{hotelId}")
+    public ResponseEntity<ApiResponse> updateHotel(
+            @RequestBody HotelDto hotelDto,
+            @PathVariable("hotelId") int hotelId
+    ){
+        HotelDto hotelDto1 = this.hotelService.updateHotel(hotelDto, hotelId);
+        ApiResponse userCreated = ApiResponse.builder().serviceName("hotel-service").message("hotel updated").data(hotelDto1).status(true).build();
+        return new ResponseEntity<>(userCreated, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/hotel/{hotelId}")
+    public ResponseEntity<ApiResponse> deleteHotel(@PathVariable("hotelId") int hotelId){
+        String s = this.hotelService.deleteHotel(hotelId);
+        ApiResponse userDeleted = ApiResponse.builder().serviceName("hotel-service").message("hotel deleted").data(s).status(true).build();
+        return new ResponseEntity<>(userDeleted, HttpStatus.OK);
+    }
 }

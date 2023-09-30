@@ -12,4 +12,8 @@ public interface HotelService {
 
     List<HotelDto> getAllHotels();
 
+    HotelDto updateHotel(HotelDto hotelDto, int hotelId);
+
+    String deleteHotel(int hotelId);
+
 }
